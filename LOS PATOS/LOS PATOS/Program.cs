@@ -33,9 +33,13 @@ namespace LOS_PATOS
         {
             public void usuario()
             {
+
                 vendedor vende = new vendedor();
                 administrador admon = new administrador();
                 encabezados tit = new encabezados();
+
+                Console.Clear();
+                tit.patos();
 
                 StreamReader lectura;
                 string cadena, user, password;
@@ -46,8 +50,7 @@ namespace LOS_PATOS
                 int a = 0;
                 string ad = "administrador";
 
-                try
-                {                   
+            
                     while (a == 0)
                     {
                         lectura = File.OpenText("usuarios.txt");
@@ -75,6 +78,7 @@ namespace LOS_PATOS
 
                                     Console.Write("Bienvenido " + datos[0].Trim());
                                     Console.Write(" (administrador)");
+                                    lectura.Close();
                                     admon.admin();
                                 }
                                 else
@@ -84,6 +88,7 @@ namespace LOS_PATOS
 
                                     Console.Write("Bienvenido " + datos[0].Trim());
                                     Console.Write(" (vendedor)");
+                                    lectura.Close();
                                     vende.ven();
                                 }
                                 
@@ -106,11 +111,8 @@ namespace LOS_PATOS
 
                         lectura.Close();
                     } 
-                }
-                catch (FileNotFoundException e)
-                {
-                    Console.WriteLine("ERROR" + e.Message);
-                }                 
+                
+          
             }
             
         }
@@ -119,6 +121,7 @@ namespace LOS_PATOS
         {
             public void ven()
             {
+                logear log = new logear();
                 encabezados tit = new encabezados();
 
 
@@ -128,33 +131,24 @@ namespace LOS_PATOS
 
                 while (a == 0)
                 {
-                    try
-                    {
-                        Console.WriteLine();
-                        Console.Write("1) cargar inventario\n2) facturar productos\n3)salir\nQue desea hacer: ");
-                        res = int.Parse(Console.ReadLine());
+                             
+                    Console.WriteLine();
+                    Console.Write("1) cargar inventario\n2) facturar productos\n3) cerrar sesion\nQue desea hacer: ");
+                    res = int.Parse(Console.ReadLine());
 
-                        if (res == 3)
-                        {
-                            a = 1;
-                            Environment.Exit(0);
-                        }
+                     if (res == 3)
+                     {
+                         a = 1;
+                         log.usuario();
+                     }
 
-                        if (res > 3 || res < 1)
-                        {
-                            Console.Clear();
-                            tit.patos();
-                            Console.Write("elija una opcion existente");
-                            a = 0;
-                        }
-                    }
-                    catch
-                    {
-                        Console.Clear();
-                        tit.patos();
-                        Console.Write("elija una opcion existente");
-                        a = 0;
-                    }
+                     if (res == 1)
+                     {
+                         a=1;
+                     }
+
+                    
+
                 }
 
             }
@@ -164,41 +158,71 @@ namespace LOS_PATOS
         {
             public void admin()
             {
+                logear log = new logear();
                 encabezados tit = new encabezados();
                 crearusuario agr = new crearusuario();
+                consultas con = new consultas();
 
                 int res;
                 int a = 0;
+                int b = 0;
                 
 
                 while (a==0)
                 {
-                    try
+                    
+                    
+
+                    Console.WriteLine();
+                    Console.Write("1) crear usuario\n2) consultas\n3) cerrar sesion\nQue desea hacer: ");
+                    res = int.Parse(Console.ReadLine());
+
+                    if (res == 3)
                     {
-                        Console.WriteLine();
-                        Console.Write("1) crear usuario\n2) consultas\n3) salir\nQue desea hacer: ");
-                        res = int.Parse(Console.ReadLine());
-
-                        if (res == 3)
-                        {
-                            a = 1;
-                            Environment.Exit(0);
-                        }
-
-                        if (res == 1)
-                        {
-                            a = 1;
-                            agr.agregar();
-                        }
-
+                        a = 1;
+                        log.usuario();
                     }
-                    catch
+
+                    if (res == 1)
+                    {
+                        a = 1;
+                        agr.agregar();
+                    }
+
+                    if (res == 2)
                     {
                         Console.Clear();
                         tit.patos();
-                        Console.Write("elija una opcion existente");
-                        a = 0;
+
+                        Console.Write("1) ver usuarios\n2) ver inventario\n3) ver todas las facturas\n4) regresar\nQue desea hacer: ");
+                        b = int.Parse(Console.ReadLine());
+
+                        if (b == 1)
+                        {
+                            Console.WriteLine();
+                            con.users();
+                        }
+
+                        if (b == 2)
+                        {
+                            Console.WriteLine();
+                            con.inventario();
+                        }
+
+                        if (b == 3)
+                        {
+                            Console.WriteLine();
+                            con.facturas();
+                        }
+
+                        if (b == 4)
+                        {
+                            a = 0;
+                        }
+
                     }
+
+
                 }
             }
         }
@@ -222,54 +246,47 @@ namespace LOS_PATOS
 
                 while (a == 0)
                 {
-                    try
-                    {
-                        Console.Write("nombre del usuario: ");
-                        nombre = Console.ReadLine();
 
-                        Console.WriteLine();
-                        Console.Write("contraseña del usuario: ");
-                        contraseña = Console.ReadLine();
 
+                     Console.WriteLine();
+                     Console.Write("nombre del usuario: ");
+                     nombre = Console.ReadLine();
+
+
+                     Console.Write("contraseña del usuario: ");
+                     contraseña = Console.ReadLine();
+
+                   
                         Console.WriteLine();
                         Console.Write("cargo\n1) administrador\n2) vendedor: ");
                         puesto = int.Parse(Console.ReadLine());
 
+
+                        contraseña = ("," + contraseña);
+
+
                         if (puesto == 1)
                         {
                             respuesta = "administrador";
+                            respuesta = ("," + respuesta);
 
-                            archivo.WriteLine(nombre);
-                            archivo.Write(", " + contraseña);
-                            archivo.Write(", " + respuesta);
-
+                            archivo.WriteLine(nombre + contraseña + respuesta);
                             archivo.Close();
+                            a = 1;
                         }
 
                         if (puesto == 2)
                         {
                             respuesta = "vendedor";
+                            respuesta = ("," + respuesta);
 
-                            archivo.WriteLine(nombre);
-                            archivo.Write(", " + contraseña);
-                            archivo.Write(", " + respuesta);
-
+                            archivo.WriteLine(nombre + contraseña + respuesta);
                             archivo.Close();
+                            a = 1;
                         }
+                     
 
-                        a = 1;
-
-
-
-                    }
-                    catch
-                    {
-                        Console.WriteLine();
-                        Console.Write("ingrese un puesto valido");
-                        a = 0;
-                    }
-
-
+                    archivo.Close();
                 }
 
                 Console.Clear();
@@ -282,6 +299,65 @@ namespace LOS_PATOS
             }
         }
 
+        class consultas
+        {
+            public void inventario()
+            {
+                administrador add = new administrador();
+                encabezados tit = new encabezados();
+
+
+                TextReader leeeer;
+                leeeer = new StreamReader("inventario.txt");
+
+                Console.Write("producto, cantidad, precio");
+                Console.WriteLine();
+                Console.WriteLine(leeeer.ReadToEnd());
+
+                leeeer.Close();
+
+                add.admin();
+            }
+
+            public void facturas()
+            {
+                administrador add = new administrador();
+                encabezados tit = new encabezados();
+
+                Console.Clear();
+                tit.patos();
+
+                TextReader leeer;
+                leeer = new StreamReader("facturas.txt");
+
+                Console.WriteLine();
+                Console.WriteLine(leeer.ReadToEnd());
+
+                leeer.Close();
+
+                add.admin();
+            }
+
+            public void users()
+            {
+                administrador add = new administrador();
+                encabezados tit = new encabezados();
+
+                Console.Clear();
+                tit.patos();
+
+                TextReader leeer;
+                Console.Write("usuario, contraseña, puesto");
+                Console.WriteLine();
+                leeer = new StreamReader("usuarios.txt");
+
+                Console.WriteLine(leeer.ReadToEnd());
+
+                leeer.Close();
+
+                add.admin();
+            }
+        }
     }    
 }
 
