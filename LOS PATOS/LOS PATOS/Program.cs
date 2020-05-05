@@ -27,7 +27,7 @@ namespace LOS_PATOS
                 int x = int.Parse(Console.ReadLine());
 
                 if (x == 1)
-                {
+                { 
                     log.usuario();
                     a = 0;
                 }
