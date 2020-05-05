@@ -12,13 +12,34 @@ namespace LOS_PATOS
         static void Main(string[] args)
         {
             logear log = new logear();
-
             encabezados tit = new encabezados();       
+
+            int a = 0;
+
+            Console.Clear();
             tit.patos();
 
-            log.usuario();
+            while (a == 0)
+            {
 
-            Console.ReadKey();
+                Console.WriteLine();
+                Console.Write("1) iniciar sesion\n2) salir\nque desea hacer: ");
+                int x = int.Parse(Console.ReadLine());
+
+                if (x == 1)
+                {
+                    log.usuario();
+                    a = 0;
+                }
+
+                if (x == 2)
+                {
+                    a = 1;
+                }
+            }
+
+
+            
         }
 
         class encabezados
@@ -33,7 +54,6 @@ namespace LOS_PATOS
         {
             public void usuario()
             {
-
                 vendedor vende = new vendedor();
                 administrador admon = new administrador();
                 encabezados tit = new encabezados();
@@ -106,14 +126,17 @@ namespace LOS_PATOS
                     {
                         Console.Clear();
                         tit.patos();
-                        Console.WriteLine("el user que introdujo no existe, intente de nuevo");
-                        a = 0;
+
+                        Console.WriteLine();
+                        Console.Write("el usuario que introdujo no existe");
+                        a = 1;
                     }
 
                     lectura.Close();
-                } 
-                
-          
+                }
+
+
+
             }
             
         }
@@ -128,20 +151,37 @@ namespace LOS_PATOS
                 encabezados tit = new encabezados();
 
                 int res;
+                int xd=0;
+
+                while (xd == 0)
+                {
+                    Console.WriteLine();
+                    Console.Write("1) cargar inventario\n2) facturar productos\n3) cerrar sesion\nQue desea hacer: ");
+                    res = int.Parse(Console.ReadLine());
+
                 
-                Console.WriteLine();
-                Console.Write("1) cargar inventario\n2) facturar productos\n3) cerrar sesion\nQue desea hacer: ");
-                res = int.Parse(Console.ReadLine());
+                    if (res == 1)
+                    {
+                        fac.cargar();
+                        xd = 0;
+                    }
 
-                if (res == 1)
-                {
-                    fac.cargar();
-                }
+                    if (res == 3)
+                    {
+                        Console.Clear();
+                        tit.patos();
+                        xd = 1;
+                    }
 
-                if (res == 3)
-                {
-                    log.usuario();
+                    if (res == 2)
+                    {
+                        fac.facturar();
+                        Console.WriteLine();
+                        Console.Write("GRACIAS POR SU COMPRA");
+                        xd = 0;
+                    }
                 }
+                
 
             }
         }
@@ -168,14 +208,16 @@ namespace LOS_PATOS
 
                     if (res == 3)
                     {
+                        Console.Clear();
+                        tit.patos();
                         a = 1;
-                        log.usuario();
                     }
 
                     if (res == 1)
                     {
-                        a = 1;
+                        
                         agr.agregar();
+                        a = 0;
                     }
 
                     if (res == 2)
@@ -210,6 +252,8 @@ namespace LOS_PATOS
                         }
                     }
                 }
+
+                  
             }
         }
 
@@ -280,7 +324,7 @@ namespace LOS_PATOS
 
                 Console.WriteLine("usuario creado");
 
-                add.admin();
+
 
             }
         }
@@ -302,7 +346,7 @@ namespace LOS_PATOS
 
                 leeeer.Close();
 
-                add.admin();
+
             }
 
             public void facturas()
@@ -321,7 +365,7 @@ namespace LOS_PATOS
 
                 leeer.Close();
 
-                add.admin();
+
             }
 
             public void users()
@@ -341,7 +385,7 @@ namespace LOS_PATOS
 
                 leeer.Close();
 
-                add.admin();
+
             }
         }
 
@@ -360,96 +404,116 @@ namespace LOS_PATOS
                 int cantidad;
                 double precio;
 
-                Console.Write("1) agregar producto nuevo\n2) actualizar producto  : ");
-                int a = int.Parse(Console.ReadLine());
-
-                //if (a == 1)
-                //{
-                    StreamWriter archivo = File.AppendText("inventario.txt");
-
-                    Console.WriteLine();
-                    Console.Write("nombre del producto: ");
-                    nombre = Console.ReadLine();
-
-                    Console.Write("ingrese la cantidad: ");
-                    cantidad = int.Parse(Console.ReadLine());
-
-                    Console.Write("ingrese precio del producto: ");
-                    precio = Double.Parse(Console.ReadLine());
-
-                    archivo.WriteLine(nombre + c + cantidad + b + precio);
-                    archivo.Close();
-
-                    Console.Clear();
-                    tit.patos();
-                    Console.WriteLine("producto agregado con exito");
-                    vende.ven();
-                //}
-                //este fue mi intento de agregar producto existente
-                /*if (a == 2)
-                {
-                    StreamReader lectura;
-                    string cadena, producto;
-                    bool encontrado;
-                    encontrado = false;
-                    string[] campos = new string[2];
-                    int[] numero = new int[1];
-                    char[] separador = { ',' };
-
-                    lectura = File.OpenText("inventario.txt");
-                    Console.Write("ingrese el nombre del producto: ");
-                    producto = Console.ReadLine();
-
-                    cadena = lectura.ReadLine();
-
-                    while (cadena != null && encontrado==false)
-                    {
-                        campos = cadena.Split(separador);
 
 
-                        if (campos[0].Trim().Equals(producto))
-                        {
-                            StreamWriter archivo = File.AppendText("usuarios.txt");
-                            Console.WriteLine();
-                            Console.Write("ingrese la cantidad actualizada de producto: ");
-                            string g = Console.ReadLine();
 
+                StreamWriter archivo = File.AppendText("inventario.txt");
 
-                            campos[1] = archivo.Write(g);
+                Console.WriteLine();
+                Console.Write("nombre del producto: ");
+                nombre = Console.ReadLine();
 
-                            Console.Write("dsds"+campos[1]);
+                Console.Write("ingrese la cantidad: ");
+                cantidad = int.Parse(Console.ReadLine());
 
-                            archivo.Close();
-                            lectura.Close();
+                Console.Write("ingrese precio del producto: ");
+                precio = Double.Parse(Console.ReadLine());
 
-                            Console.Clear();
-                            tit.patos();
-                            Console.WriteLine("producto agregado con exito");
-                            vende.ven();
+                archivo.WriteLine(nombre + c + cantidad + b + precio);
+                archivo.Close();
 
-                            encontrado = true;
-                        }
-                        else
-                        {
-                            cadena = lectura.ReadLine();
-                        }
-                    }
-                    if (encontrado == false)
-                    {
-                        Console.Write("el producto no esta en el inventario");
-                    }
+                Console.Clear();
+                tit.patos();
+                Console.WriteLine("producto agregado con exito");
 
-                    lectura.Close();
-
-
-                    }*/
-
+                
 
             }
 
             public void facturar()
             {
+                encabezados tit = new encabezados();
+                Console.Clear();
+                tit.patos();
+                string producto;
+                int cantidad;
+                double precio, subtotal, total=0;
+                int a = 1;
+                string c, b;
 
+                b = ",";
+                c = ",";
+
+                TextWriter archivo;
+                archivo = new StreamWriter("factura.txt");
+                StreamWriter facturas = File.AppendText("facturas.txt");
+
+                Console.Write("ingrese el correlativo de la factura: ");
+                string correlativo = Console.ReadLine();
+
+                Console.Write("ingrese el nombre del cliente: ");
+                string nombre = Console.ReadLine();
+
+                Console.Write("ingrese el NIT del cliente: ");
+                string nit = Console.ReadLine();
+
+                Console.Write("ingrese la fecha: ");
+                string fecha = Console.ReadLine();
+
+                archivo.WriteLine();
+                archivo.WriteLine("----LOS_PATOS----");
+                archivo.WriteLine(correlativo);
+                archivo.WriteLine("nombre:" + nombre);
+                archivo.WriteLine("nit: " + nit);
+                archivo.WriteLine("fecha"+fecha);
+                archivo.WriteLine();
+                archivo.WriteLine("producto,cantidad,precio,subtotal");
+
+                facturas.WriteLine();
+                facturas.WriteLine("----LOS_PATOS----");
+                facturas.WriteLine(correlativo);
+                facturas.WriteLine("nombre:" + nombre);
+                facturas.WriteLine("nit: " + nit);
+                facturas.WriteLine("fecha" + fecha);
+                facturas.WriteLine();
+                facturas.WriteLine("producto,cantidad,precio,subtotal");
+
+                while (a == 1)
+                {
+                    Console.WriteLine();
+                    Console.Write("ingrese nombre del producto: ");
+                    producto = Console.ReadLine();
+
+                    Console.Write("ingrese la cantidad de producto: ");
+                    cantidad = int.Parse(Console.ReadLine());
+
+                    Console.Write("ingrese el valor del producto: ");
+                    precio = double.Parse(Console.ReadLine());
+
+                    subtotal = cantidad * precio;
+
+                    total = total + subtotal;
+
+                    archivo.WriteLine(producto + c + cantidad + b + precio + c + subtotal);
+                    facturas.WriteLine(producto + c + cantidad + b + precio + c + subtotal);
+
+                    Console.WriteLine();
+                    Console.Write("el total es: "+total+" desea agregar otro producto (1)si, (2)no: ");
+                    a = int.Parse(Console.ReadLine());
+                }
+
+                archivo.WriteLine();    
+                archivo.WriteLine("el total a pagar es: "+total);
+                archivo.WriteLine("GRACIAS POR SU COMPRA");
+                archivo.Close();
+
+                facturas.WriteLine();
+                facturas.WriteLine("el total a pagar es: " + total);
+                facturas.WriteLine("GRACIAS POR SU COMPRA");
+                facturas.Close();
+                Console.WriteLine();
+                Console.Write("el total a pagar es: "+total);
+               
             }
         }
     }    
