@@ -89,6 +89,7 @@ namespace LOS_PATOS
                                 Console.Write("Bienvenido " + datos[0].Trim());
                                 Console.Write(" (vendedor)");
                                 lectura.Close();
+                                
                                 vende.ven();
                             }
                                 
@@ -121,30 +122,25 @@ namespace LOS_PATOS
         {
             public void ven()
             {
+                consultas con = new consultas();
                 facturarinventario fac = new facturarinventario();
                 logear log = new logear();
                 encabezados tit = new encabezados();
 
-                Console.Clear();
-                tit.patos();
-
                 int res;
-                int a = 0;
                 
+                Console.WriteLine();
+                Console.Write("1) cargar inventario\n2) facturar productos\n3) cerrar sesion\nQue desea hacer: ");
+                res = int.Parse(Console.ReadLine());
 
-                while (a == 0)
-                {                            
-                    Console.WriteLine();
-                    Console.Write("1) cargar inventario\n2) facturar productos\n3) cerrar sesion\nQue desea hacer: ");
-                    res = int.Parse(Console.ReadLine());
+                if (res == 1)
+                {
+                    fac.cargar();
+                }
 
-                    if (res == 1)
-                    {
-                        fac.cargar();
-                        Console.WriteLine("producto agregado con exito");
-                        a = 0;
-                    }
-
+                if (res == 3)
+                {
+                    log.usuario();
                 }
 
             }
@@ -358,65 +354,96 @@ namespace LOS_PATOS
                 Console.Clear();
                 tit.patos();
 
-                string[] datos = new string[2];
-                char[] indicador = { ',' };
-                string cadena;
+                string nombre;
+                string c = ",";
+                string b = ",";
+                int cantidad;
+                double precio;
 
-                Console.Write("1) ingresar producto existente\n2) producto nuevo: ");
-                int respuesta = int.Parse(Console.ReadLine());
+                Console.Write("1) agregar producto nuevo\n2) actualizar producto  : ");
+                int a = int.Parse(Console.ReadLine());
 
-                if (respuesta == 2)
+                //if (a == 1)
+                //{
+                    StreamWriter archivo = File.AppendText("inventario.txt");
+
+                    Console.WriteLine();
+                    Console.Write("nombre del producto: ");
+                    nombre = Console.ReadLine();
+
+                    Console.Write("ingrese la cantidad: ");
+                    cantidad = int.Parse(Console.ReadLine());
+
+                    Console.Write("ingrese precio del producto: ");
+                    precio = Double.Parse(Console.ReadLine());
+
+                    archivo.WriteLine(nombre + c + cantidad + b + precio);
+                    archivo.Close();
+
+                    Console.Clear();
+                    tit.patos();
+                    Console.WriteLine("producto agregado con exito");
+                    vende.ven();
+                //}
+                //este fue mi intento de agregar producto existente
+                /*if (a == 2)
                 {
                     StreamReader lectura;
-                    lectura = File.OpenText("usuarios.txt");
+                    string cadena, producto;
+                    bool encontrado;
+                    encontrado = false;
+                    string[] campos = new string[2];
+                    int[] numero = new int[1];
+                    char[] separador = { ',' };
+
+                    lectura = File.OpenText("inventario.txt");
+                    Console.Write("ingrese el nombre del producto: ");
+                    producto = Console.ReadLine();
 
                     cadena = lectura.ReadLine();
 
-                    while (cadena != null)
+                    while (cadena != null && encontrado==false)
                     {
-                        datos = cadena.Split(indicador);
+                        campos = cadena.Split(separador);
 
-                        if (datos[0].Trim().Equals(user))
+
+                        if (campos[0].Trim().Equals(producto))
                         {
-                            cadena = lectura.ReadLine();
+                            StreamWriter archivo = File.AppendText("usuarios.txt");
+                            Console.WriteLine();
+                            Console.Write("ingrese la cantidad actualizada de producto: ");
+                            string g = Console.ReadLine();
+
+
+                            campos[1] = archivo.Write(g);
+
+                            Console.Write("dsds"+campos[1]);
+
+                            archivo.Close();
+                            lectura.Close();
+
+                            Console.Clear();
+                            tit.patos();
+                            Console.WriteLine("producto agregado con exito");
+                            vende.ven();
+
+                            encontrado = true;
                         }
                         else
                         {
-                            lectura.Close();
-                            Console.Clear();
-                            tit.patos();
-
-                            StreamWriter archivo = File.AppendText("inventario.txt");
-
-                            Console.Write("ingrese nombre del producto: ");
-                            string nombre = Console.ReadLine();
-
-                            Console.Write("ingrese cantidad del producto: ");
-                            int cantidad = int.Parse(Console.ReadLine());
-
-                            Console.Write("ingrese precio del producto: ");
-                            double precio = double.Parse(Console.ReadLine());
-
-                            string a = ",";
-                            string b = ",";
-
-                            archivo.WriteLine(nombre + a + cantidad + b + respuesta);
-                            archivo.Close();
-
-                            vende.ven();
+                            cadena = lectura.ReadLine();
                         }
                     }
-                    
+                    if (encontrado == false)
+                    {
+                        Console.Write("el producto no esta en el inventario");
+                    }
 
-                    
-                    
+                    lectura.Close();
 
-                }
 
-                if (respuesta == 1)
-                {
+                    }*/
 
-                }
 
             }
 
