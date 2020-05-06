@@ -28,7 +28,7 @@ namespace LOS_PATOS
 
                 if (x == 1)
                 { 
-                    log.usuario();
+                    log.IniciarSesion();
                     a = 0;
                 }
 
@@ -42,7 +42,7 @@ namespace LOS_PATOS
             
         }
 
-        class encabezados
+        class encabezados //esto es para decorar con un encabezado.
         {
             public void patos()
             {
@@ -52,7 +52,7 @@ namespace LOS_PATOS
 
         class logear
         {
-            public void usuario()
+            public void IniciarSesion()
             {
                 vendedor vende = new vendedor();
                 administrador admon = new administrador();
@@ -345,7 +345,7 @@ namespace LOS_PATOS
                 Console.WriteLine(leeeer.ReadToEnd());
 
                 leeeer.Close();
-
+                    
 
             }
 
