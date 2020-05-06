@@ -429,7 +429,7 @@ namespace LOS_PATOS
                 
 
             }
-
+                
             public void facturar()
             {
                 encabezados tit = new encabezados();
@@ -502,7 +502,7 @@ namespace LOS_PATOS
                     a = int.Parse(Console.ReadLine());
                 }
 
-                archivo.WriteLine();    
+                archivo.WriteLine();        
                 archivo.WriteLine("el total a pagar es: "+total);
                 archivo.WriteLine("GRACIAS POR SU COMPRA");
                 archivo.Close();
